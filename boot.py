@@ -5,6 +5,7 @@
 #webrepl.start()
 
 import network, socket, time, os
+from umqtt.simple import MQTTClient
 
 def connect(ssid, password):
     print('Connecting to', ssid, '... ', end='')
@@ -21,7 +22,7 @@ def connect(ssid, password):
 
     return wlan_if
     
-def createAP(ssid, password):
+def create_AP(ssid, password):
     ap_if = network.WLAN(network.AP_IF)
     
     ap_if.config(ssid='ESP-AP')
@@ -29,12 +30,20 @@ def createAP(ssid, password):
     ap_if.active(True)
 
     return ap_if
+    
+def mqtt_client(host, client_name):
+    client = MQTTClient(client_name, host, keepalive=60)
+
+    print('Connecting to mqtt broker', host, '... ', end='')
+    client.connect()
+    print('done. Client id:', client_name)
+
+    return client
 
 print('Booted!')
-
 # CONNECT TO NETWORK
 time.sleep(2)
 wlan_if = connect('The Wired', 'Sissi2000!')
 
-
-
+time.sleep(2)
+client = mqtt_client('192.168.1.60', 'esp32')
