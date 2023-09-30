@@ -1,1 +1,0 @@
-sudo ampy -p /dev/ttyUSB0 put boot.py
