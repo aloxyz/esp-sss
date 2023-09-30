@@ -7,7 +7,7 @@
 import network, socket, time, os
 from umqtt.simple import MQTTClient
 
-def connect(ssid, password):
+def wlan_connect(ssid, password):
     print('Connecting to', ssid, '... ', end='')
 
     wlan_if = network.WLAN(network.STA_IF)
@@ -31,7 +31,7 @@ def create_AP(ssid, password):
 
     return ap_if
     
-def mqtt_client(host, client_name):
+def mqtt_connect(host, client_name):
     client = MQTTClient(client_name, host, keepalive=60)
 
     print('Connecting to mqtt broker', host, '... ', end='')
@@ -43,7 +43,7 @@ def mqtt_client(host, client_name):
 print('Booted!')
 # CONNECT TO NETWORK
 time.sleep(2)
-wlan_if = connect('The Wired', 'Sissi2000!')
+wlan_if = wlan_connect('The Wired', 'Sissi2000!')
 
 time.sleep(2)
-client = mqtt_client('192.168.1.60', 'esp32')
+client = mqtt_connect('192.168.1.60', 'esp32')
