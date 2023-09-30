@@ -87,26 +87,3 @@ def shamir_reconstruct(shares):
     Find the secret given k random shares using Lagrange interpolation
     '''
     return lagrange_interpolation(0, shares)
-
-if __name__ == '__main__':
-    runs = 0
-    try:
-        for i in range(FIELD):
-            print('----------run #'+str(i)+'----------')
-
-            secret = 1234
-            print('secret:', secret)
-
-            shares = shamir_deconstruct(3, 6, 1234)
-            print('shares of', secret, ':', shares)
-
-            reconstructed_secret = shamir_reconstruct(shares)
-            print('reconstructed secret:', reconstructed_secret)
-
-            runs = i
-
-    except Exception as e:
-        print('----------RUN ENDED----------')
-        print('runs:', runs)
-        print('error:', e)
-        #traceback.print_exc()

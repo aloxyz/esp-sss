@@ -4,7 +4,7 @@
 #import webrepl
 #webrepl.start()
 
-import network, socket, time, os
+import network, socket, time, os, sss
 from umqtt.simple import MQTTClient
 
 def wlan_connect(ssid, password):
@@ -40,10 +40,22 @@ def mqtt_connect(host, client_name):
 
     return client
 
+def publish_split_secret(client, secret):
+    shares = sss.shamir_deconstruct(3, 6, 1234)
+    print('shares of', secret, ':', shares)
+    
+    client.publish('sss', ";".join(map(str, shares)))
+
+    return shares
+
 print('Booted!')
 # CONNECT TO NETWORK
 time.sleep(2)
 wlan_if = wlan_connect('The Wired', 'Sissi2000!')
 
+# CONNECT TO MQTT SERVER
 time.sleep(2)
 client = mqtt_connect('192.168.1.60', 'esp32')
+
+# SECRET SPLIT
+publish_split_secret(client, 1234)
